@@ -1,11 +1,9 @@
 {
-    "users": [{
-        "id": 1,
-        "name": "Arthur Oliveira",
-        "email": "aoliveira@teste.com.br"
-    }, {
-        "id": 2,
-        "name": "Maria Julia",
-        "email": "maju@teste.com"
-    }]
+  "users": [
+    {
+      "name": "Rodrigo Palombo Lima alterado denovo",
+      "email": "dripalombo22@gmail.com",
+      "id": 1
+    }
+  ]
 }
