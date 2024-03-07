@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Main from '../template/Main'
+import Alert from '../template/Alert'
 
 const headerProps = {
     icon: 'users',
@@ -28,13 +29,18 @@ export default class UserCrud extends Component {
     }
 
     save() {
-        const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseURL}/${user.id}` : baseURL
+        const user = this.state.user;
+        if (!user.name.trim() || !user.email.trim()) {
+            this.setState({ error: 'Nome e email são obrigatórios.' }); // Defina a mensagem de erro no estado
+            return;
+        }
+
+        const method = user.id ? 'put' : 'post';
+        const url = user.id ? `${baseURL}/${user.id}` : baseURL;
         axios[method](url, user)
         .then(resp => {
             const list = this.getUpdateList(resp.data);
-            this.setState({ user: initialState.user, list });
+            this.setState({ user: initialState.user, list, error: '' });
         })
         .catch(error => {
             console.error('Erro ao salvar usuário:', error);
@@ -157,6 +163,7 @@ export default class UserCrud extends Component {
     render() {
         return (
             <Main {...headerProps}>
+                {this.state.error && <Alert message={this.state.error} />} {/* Renderize o componente de aviso se houver um erro */}
                 {this.renderForm()}
                 {this.renderTable()}
             </Main>
