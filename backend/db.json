@@ -1,9 +1,14 @@
 {
   "users": [
     {
-      "name": "Rodrigo Palombo Lima alterado denovo",
-      "email": "dripalombo22@gmail.com",
+      "name": "Rodrigo Palombo Lima alteração 1",
+      "email": "dripalombo@gmail.com",
       "id": 1
+    },
+    {
+      "name": "jeu chaves",
+      "email": "jeuchaves@gmail.com",
+      "id": 2
     }
   ]
 }

@@ -44,12 +44,14 @@ export default class UserCrud extends Component {
     getUpdateList(user, add = true) {
         let updatedList;
         if (add) {
-            updatedList = [user, ...this.state.list]; // Adiciona o usuário no início da lista
+            updatedList = this.state.list.filter(u => u.id !== user.id); // Remove qualquer usuário com o mesmo ID
+            updatedList.unshift(user); // Adiciona o usuário no início da lista
         } else {
             updatedList = this.state.list.filter(u => u.id !== user.id); // Remove o usuário da lista
         }
         return updatedList;
     }
+    
 
     updateField(event) {
         const user = { ...this.state.user}
@@ -149,7 +151,7 @@ export default class UserCrud extends Component {
                 </tr>
             )
         })
-    }
+    }    
     
 
     render() {
