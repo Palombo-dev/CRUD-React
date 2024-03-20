@@ -1,3 +1,19 @@
 {
-  "users": []
+  "users": [
+    {
+      "name": "Rodrigo Palombo Lima",
+      "email": "dripalombo22@gmail.com",
+      "id": 1
+    },
+    {
+      "name": "Jeu chaves lima",
+      "email": "jeuchaves@gmail.com",
+      "id": 2
+    },
+    {
+      "name": "Vini Gonzalves",
+      "email": "vinigonzalves@gmail.com",
+      "id": 3
+    }
+  ]
 }
