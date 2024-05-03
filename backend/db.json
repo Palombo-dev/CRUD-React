@@ -15,5 +15,19 @@
       "email": "vinigonzalves@gmail.com",
       "id": 3
     }
+  ],
+  "states": [
+    {
+      "name": "Prospecção",
+      "id": 1
+    },
+    {
+      "name": "Reunião",
+      "id": 2
+    },
+    {
+      "name": "orçamento",
+      "id": 3
+    }
   ]
 }
