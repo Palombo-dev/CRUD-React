@@ -14,5 +14,8 @@ export default props =>
             <Link to="/states">
                 <i className="fa fa-address-book-o"></i>Estados
             </Link>
+            <Link to="/trades">
+                <i className="fa fa-calculator"></i>negociação
+            </Link>
         </nav>
     </aside>

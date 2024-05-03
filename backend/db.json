@@ -18,16 +18,25 @@
   ],
   "states": [
     {
-      "name": "Prospecção",
-      "id": 1
+      "id": 1,
+      "name": "Prospecção"
     },
     {
-      "name": "Reunião",
-      "id": 2
+      "id": 2,
+      "name": "Reunião"
     },
     {
-      "name": "orçamento",
-      "id": 3
+      "id": 3,
+      "name": "Orçamento"
+    },
+    {
+      "id": 4,
+      "name": "Desenvolvimento"
+    },
+    {
+      "id": 5,
+      "name": "Concluido"
     }
-  ]
+  ],
+  "trade": []
 }
