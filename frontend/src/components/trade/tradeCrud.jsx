@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export default class TradeCrud extends Component {
-    state = { ...initialState };
+    state = { ...initialState, originalList: [] }; // Adicionando originalList ao estado inicial
 
     componentDidMount() {
         this.getAllStates();
@@ -37,10 +37,12 @@ export default class TradeCrud extends Component {
             .catch(error => console.error('Erro ao buscar estados:', error));
     }
     
-    
     getAllTrades() {
         axios.get(`${baseURL}/trade`)
-            .then(resp => this.setState({ list: resp.data }))
+            .then(resp => {
+                // Armazena a lista original e a lista exibida
+                this.setState({ list: resp.data, originalList: resp.data });
+            })
             .catch(error => console.error('Erro ao buscar negociações:', error));
     }
     
@@ -63,15 +65,15 @@ export default class TradeCrud extends Component {
     }
     
     filter() {
-        const { filterStateId, list } = this.state;
+        const { filterStateId, originalList } = this.state;
         console.log('filterStateId:', filterStateId); // Adicionar este log para depuração
         let filteredList;
         if (filterStateId === 0) {
             // Se o filtro for "Todos", exibe a lista original
-            filteredList = list;
+            filteredList = originalList;
         } else {
             // Filtra as negociações pelo EstadoId selecionado
-            filteredList = list.filter(trade => {
+            filteredList = originalList.filter(trade => {
                 const stateId = parseInt(trade.EstadoId); // Converter EstadoId para número
                 return stateId === filterStateId;
             });
@@ -80,9 +82,10 @@ export default class TradeCrud extends Component {
         this.setState({ list: filteredList });
     }
     
+    resetFilter() {
+        this.setState({ list: this.state.originalList, filterStateId: 0 });
+    }
     
-    
-
     updateField(event) {
         const trade = { ...this.state.trade };
         trade[event.target.name] = event.target.value;
@@ -108,7 +111,6 @@ export default class TradeCrud extends Component {
         console.log('Estado:', state); // Adicione este log para debug
         return state ? state.name : '';
     }
-    
 
     renderForm() {
         return (
@@ -180,6 +182,12 @@ export default class TradeCrud extends Component {
                                 onClick={() => this.filter()}
                             >
                                 Filtrar
+                            </button>
+                            <button
+                                className="btn btn-info ml-2"
+                                onClick={() => this.resetFilter()}
+                            >
+                                Limpar Filtro
                             </button>
                         </div>
                     </div>
