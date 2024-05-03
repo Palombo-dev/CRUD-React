@@ -14,7 +14,8 @@ const initialState = {
     trade: { id: 0, name: '', EstadoId: 0 },
     list: [],
     states: [],
-    error: ''
+    error: '',
+    filterStateId: 0, // Adição para armazenar o ID do estado selecionado para filtragem
 };
 
 export default class TradeCrud extends Component {
@@ -49,32 +50,36 @@ export default class TradeCrud extends Component {
 
     save() {
         const trade = this.state.trade;
-        const id = trade.id;
-        if (id !== 0) {
-            axios.put(`${baseURL}/trade/${id}`, trade) // Usando PUT e passando o ID da negociação
-                .then(resp => {
-                    const updatedTrade = resp.data; // Negociação atualizada
-                    const updatedList = this.state.list.map(item => (item.id === id ? updatedTrade : item)); // Atualizando a lista localmente
-                    this.setState({
-                        list: updatedList,
-                        trade: initialState.trade, // Reiniciando o estado do formulário
-                        error: ''
-                    });
-                })
-                .catch(error => console.error('Erro ao atualizar negociação:', error));
-        } else {
-            axios.post(`${baseURL}/trade`, trade) // Usando POST para criar uma nova negociação
-                .then(resp => {
-                    const newTrade = resp.data; // Nova negociação adicionada
-                    this.setState(prevState => ({
-                        list: [...prevState.list, newTrade], // Adiciona a nova negociação à lista atual
-                        trade: initialState.trade, // Reinicia o estado do formulário
-                        error: ''
-                    }));
-                })
-                .catch(error => console.error('Erro ao salvar negociação:', error));
-        }
+        axios.post(`${baseURL}/trade`, trade)
+            .then(resp => {
+                const newTrade = resp.data; // Nova negociação adicionada
+                this.setState(prevState => ({
+                    list: [...prevState.list, newTrade], // Adiciona a nova negociação à lista atual
+                    trade: initialState.trade, // Reinicia o estado do formulário
+                    error: ''
+                }));
+            })
+            .catch(error => console.error('Erro ao salvar negociação:', error));
     }
+    
+    filter() {
+        const { filterStateId, list } = this.state;
+        console.log('filterStateId:', filterStateId); // Adicionar este log para depuração
+        let filteredList;
+        if (filterStateId === 0) {
+            // Se o filtro for "Todos", exibe a lista original
+            filteredList = list;
+        } else {
+            // Filtra as negociações pelo EstadoId selecionado
+            filteredList = list.filter(trade => {
+                const stateId = parseInt(trade.EstadoId); // Converter EstadoId para número
+                return stateId === filterStateId;
+            });
+        }
+        console.log('Lista filtrada:', filteredList); // Adicionar este log para depuração
+        this.setState({ list: filteredList });
+    }
+    
     
     
 
@@ -138,6 +143,21 @@ export default class TradeCrud extends Component {
                             </select>
                         </div>
                     </div>
+                    <div className="col-12 col-md-2">
+                        <div className="form-group">
+                            <label>Filtrar por Estado</label>
+                            <select
+                                className="form-control"
+                                value={this.state.filterStateId}
+                                onChange={(e) => this.setState({ filterStateId: parseInt(e.target.value) })}
+                            >
+                                <option value={0}>Todos</option>
+                                {this.state.states.map(state => (
+                                    <option key={state.id} value={state.id}>{state.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <hr />
                 <div className="row">
@@ -154,12 +174,19 @@ export default class TradeCrud extends Component {
                         >
                             Cancelar
                         </button>
+                        <div className="ml-2">
+                            <button
+                                className="btn btn-info"
+                                onClick={() => this.filter()}
+                            >
+                                Filtrar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         );
     }
-    
 
     renderTable() {
         return (
@@ -202,7 +229,6 @@ export default class TradeCrud extends Component {
             );
         });
     }
-    
 
     render() {
         return (

@@ -38,5 +38,36 @@
       "name": "Concluido"
     }
   ],
-  "trade": []
+  "trade": [
+    {
+      "id": 1,
+      "name": "Dog in Box",
+      "EstadoId": "1"
+    },
+    {
+      "id": 2,
+      "name": "Faço na hora",
+      "EstadoId": "4"
+    },
+    {
+      "id": 3,
+      "name": "Oboticario",
+      "EstadoId": "3"
+    },
+    {
+      "id": 4,
+      "name": "Ponta agrotec",
+      "EstadoId": "1"
+    },
+    {
+      "id": 5,
+      "name": "Mana do ceu",
+      "EstadoId": "5"
+    },
+    {
+      "id": 6,
+      "name": "Pantanal agricola",
+      "EstadoId": "4"
+    }
+  ]
 }
