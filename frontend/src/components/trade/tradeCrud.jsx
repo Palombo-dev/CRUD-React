@@ -52,14 +52,31 @@ export default class TradeCrud extends Component {
 
     save() {
         const trade = this.state.trade;
-        axios.post(`${baseURL}/trade`, trade)
+        const { id } = trade; // Obtém o ID da negociação
+        const url = id ? `${baseURL}/trade/${id}` : `${baseURL}/trade`; // Determina se é uma atualização ou uma criação
+        
+        const method = id ? 'put' : 'post'; // Determina o método HTTP a ser usado
+        
+        axios[method](url, trade)
             .then(resp => {
-                const newTrade = resp.data; // Nova negociação adicionada
-                this.setState(prevState => ({
-                    list: [...prevState.list, newTrade], // Adiciona a nova negociação à lista atual
-                    trade: initialState.trade, // Reinicia o estado do formulário
-                    error: ''
-                }));
+                const updatedTrade = resp.data; // Negociação atualizada ou criada
+                if (id) {
+                    // Se for uma atualização, atualize a lista de negociações
+                    const updatedList = this.state.list.map(item => {
+                        if (item.id === updatedTrade.id) {
+                            return updatedTrade;
+                        }
+                        return item;
+                    });
+                    this.setState({ list: updatedList, trade: initialState.trade, error: '' });
+                } else {
+                    // Se for uma criação, adicione à lista de negociações
+                    this.setState(prevState => ({
+                        list: [...prevState.list, updatedTrade],
+                        trade: initialState.trade,
+                        error: ''
+                    }));
+                }
             })
             .catch(error => console.error('Erro ao salvar negociação:', error));
     }

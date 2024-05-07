@@ -68,6 +68,11 @@
       "id": 6,
       "name": "Pantanal agricola",
       "EstadoId": "4"
+    },
+    {
+      "id": 7,
+      "name": "Natureza mistica",
+      "EstadoId": "3"
     }
   ]
 }
